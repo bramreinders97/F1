@@ -1,23 +1,13 @@
-import logo from './logo.svg';
 import './App.css';
+import Table from './components/Table';
+import {driver_table, teams_overview, team_scores} from './data/test_data';
+
+const x = driver_table[1].driver_id;
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Table driver={x} />
     </div>
   );
 }
