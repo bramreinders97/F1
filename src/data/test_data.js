@@ -11,12 +11,12 @@ const driver_table = [
 
     { driver_id: 'nor', race: 'eng', driver_score: 0 },
     { driver_id: 'sai', race: 'eng', driver_score: 18 },
-    { driver_id: 'ver', race: 'eng', driver_score: 40 },
+    // { driver_id: 'ver', race: 'eng', driver_score: 40 },
     { driver_id: 'oco', race: 'eng', driver_score: 7 },
 
     { driver_id: 'nor', race: 'por', driver_score: 16 },
     { driver_id: 'sai', race: 'por', driver_score: 6 },
-    { driver_id: 'ver', race: 'por', driver_score: 33 },
+    // { driver_id: 'ver', race: 'por', driver_score: 33 },
     { driver_id: 'oco', race: 'por', driver_score: 1 }
 ];
 

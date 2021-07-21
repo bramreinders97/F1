@@ -10,7 +10,6 @@ class DataManager {
         
         this.sortTeams();               
         this.createRaceArray();
-    
     }
 
     sortTeams() {                       //sort teams based on average
@@ -34,9 +33,6 @@ class DataManager {
     }
 
     getRaces() {                        //returns [race, race, ...]
-        // const aTeamId = this.team_table[0].team_id;
-        // return this.team_scores.filter( team => team.team_id === aTeamId ).map( team => team.race );
-
         return this.race_array;
     }
 
@@ -46,6 +42,8 @@ class DataManager {
         this.race_array.map( race => obj[race] = 
             this.team_scores.find(team_score => team_score.team_id === team_id && team_score.race === race).team_score
             );
+        
+        obj.average = this.team_table.find(team => team.team_id === team_id).average;
 
         return obj;
       
