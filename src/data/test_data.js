@@ -20,7 +20,7 @@ const driver_table = [
     { driver_id: 'oco', race: 'por', driver_score: 1 }
 ];
 
-const teams_overview = [
+const team_table = [
     { team_id: 1, driver_1: 'ham', driver_2: 'ver', driver_3: 'msc', driver_4: 'lat', average: 50.5 },
     { team_id: 2, driver_1: 'nor', driver_2: 'sai', driver_3: 'ver', driver_4: 'oco', average: 66.5 }
 ];
@@ -33,4 +33,16 @@ const team_scores = [
     { team_id: 2, race: 'por', team_score: 56 }
 ];
 
-export {driver_table, teams_overview, team_scores};
+const race_table = [
+    {race: 'eng'},
+    {race: 'por'}
+];
+
+const data = {
+    driver_table: driver_table,
+    team_table: team_table,
+    team_scores: team_scores,
+    race_table: race_table   
+};
+
+export {data};

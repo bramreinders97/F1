@@ -1,13 +1,15 @@
 import './App.css';
-import Table from './components/Table';
-import {driver_table, teams_overview, team_scores} from './data/test_data';
+import Test from './components/test_class';
+// import Table from './components/Table';
+import {data} from './data/test_data';
+import DataManager from './classes/DataManager';
 
-const x = driver_table[1].driver_id;
+const dataManager = new DataManager(data);
 
 function App() {
   return (
     <div className="App">
-      <Table driver={x} />
+      <Test dataManager={dataManager}/>
     </div>
   );
 }
