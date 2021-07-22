@@ -1,13 +1,43 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import * as ReactBootStrap from 'react-bootstrap';
 
 const Table = ( {dataManager} ) => {
 
-    const all_races = dataManager.getRaces();
-    const team_ids = dataManager.getTeamIds();
+    const [teamsObj, setTeamsObj] = useState( dataManager.getTeamIdsNew() );
 
-    const renderTeam = (team_id) => {
+    const allRacesArray = dataManager.getRaces();  //i keep this because otherwise i have to loop over Object.keys two times which seems inefficient
+    const [allRacesObj, setAllRacesObj] = useState( dataManager.getRacesNew() );
 
+    const handleClickHeader = (race) => {
+        const newBooleanValue = ! allRacesObj[race];
+        
+        let newRaceObj = {...allRacesObj};
+        newRaceObj[race] = newBooleanValue;        
+        setAllRacesObj(newRaceObj);
+
+        let newTeamsObj = [...teamsObj];
+        newTeamsObj.forEach( team => {
+            team[race] = newBooleanValue;
+        });
+        setTeamsObj(newTeamsObj);
+    }
+
+    const handleClickCell = (team, race) => {
+        const index = teamsObj.indexOf(team);
+        let newTeamsObj = [...teamsObj];
+        newTeamsObj[index][race] = ! newTeamsObj[index][race];
+        setTeamsObj(newTeamsObj);
+    }
+
+    useEffect( () => {
+        // console.log('allRacesObj',allRacesObj);
+        // console.log('team 2',teamsObj[0]);
+        // console.log('team 1',teamsObj[1]);
+    }, [ allRacesObj, teamsObj ] );
+
+    const renderTeam = (team) => {
+
+        const team_id = team.team_id;
         const team_scores = dataManager.getTeamScores(team_id);
         const driver_ids = dataManager.getDriverIds(team_id);
 
@@ -21,11 +51,11 @@ const Table = ( {dataManager} ) => {
                         return (`${driver}`)})}
                 </td>
                 <td key={'average'}>
-                    {team_scores.average}
+                    {dataManager.getAverage(team,team_scores)}
                 </td>   
-                {all_races.map( race => {
+                {allRacesArray.map( race => {
                         return ( 
-                        <td key={race}>
+                        <td key={race} onClick={() => handleClickCell(team, race)}>
                             {team_scores[race]}
                         </td> )
                     })}
@@ -40,16 +70,16 @@ const Table = ( {dataManager} ) => {
                 <tr>
                 <th>Team</th>
                 <th>Average</th>
-                {all_races.map( race => {
+                {allRacesArray.map( race => {
                     return ( 
-                    <th key={race}>
+                    <th key={race} onClick={() => handleClickHeader(race)}>
                         {race}
                     </th> 
                     )})}
                 </tr>
             </thead>
             <tbody>
-                {team_ids.map(renderTeam)} 
+                {teamsObj.map(renderTeam)} 
             </tbody> 
         </ReactBootStrap.Table>
     );

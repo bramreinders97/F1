@@ -21,6 +21,19 @@ class DataManager {
         this.team_table.map( team => array.push( team.team_id ) );
         return array;
     }
+
+    getTeamIdsNew() {                   //returns [ {team_id: team_id, race: true, race: true, ...},
+                                        //          {team_id: team_id, race: true, race: true, ...}, ...]
+        let arr = [];
+
+        this.team_table.forEach( team => {
+            let obj = {team_id: team.team_id};
+            this.race_array.forEach( race => obj[race] = true);
+            arr.push(obj);
+        })
+
+        return arr;
+    }
     
 
     getDriverIds(team_id) {             //returns [driver_1, driver_2, driver_3, driver_4]
@@ -28,7 +41,7 @@ class DataManager {
         return [ team.driver_1, team.driver_2, team.driver_3, team.driver_4 ];
     }
 
-    createRaceArray() {                 //return [race, race, ...]
+    createRaceArray() {                 //returns [race, race, ...]
         this.race_array = this.race_table.map( race => race.race);
     }
 
@@ -36,14 +49,25 @@ class DataManager {
         return this.race_array;
     }
 
+    getRacesNew() {                     //returns {race: true, race: true, ...} 
+        let obj = {};
+
+        this.race_array.forEach( race => {
+            obj[race] = true;
+        });
+
+        return obj;
+    }
+
     getTeamScores(team_id) {            //returns {race: team_score, race: team_score, ...}
         let obj = {};
-        
+       
         this.race_array.map( race => obj[race] = 
-            this.team_scores.find(team_score => team_score.team_id === team_id && team_score.race === race).team_score
+            this.team_scores.find(team_score => 
+                team_score.team_id === team_id && team_score.race === race).team_score
             );
         
-        obj.average = this.team_table.find(team => team.team_id === team_id).average;
+        // obj.average = this.team_table.find(team => team.team_id === team_id).average;
 
         return obj;
       
@@ -58,6 +82,32 @@ class DataManager {
 
         return obj;
     }   
+
+    getAverage(team_race_object, team_scores) {         //returns average of scores where race: true
+        
+        const newObj = {...team_race_object};
+        
+        delete newObj.team_id;
+        
+        let count = 0;
+        let total_points = 0;
+
+        for (const race in newObj) {
+            if (newObj[race]) {
+                const points = +team_scores[race];      //to ensure that it will be an int
+                total_points += points;
+                count++;
+            }
+        };
+
+        if (count) {
+            return total_points / count;
+        } else {
+            return count;
+        }
+
+    }
+
 
 
 }
