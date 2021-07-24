@@ -4,7 +4,7 @@ import * as ReactBootStrap from 'react-bootstrap';
 const Table = ( {dataManager} ) => {
 
     const [teamsObj, setTeamsObj] = useState( dataManager.getTeamIdsNew() );
-
+    
     const allRacesArray = dataManager.getRaces();  //i keep this because otherwise i have to loop over Object.keys two times which seems inefficient
     const [allRacesObj, setAllRacesObj] = useState( dataManager.getRacesNew() );
 
@@ -35,16 +35,16 @@ const Table = ( {dataManager} ) => {
         // console.log('team 1',teamsObj[1]);
     }, [ allRacesObj, teamsObj ] );
 
-    const renderTeam = (team) => {
+    const renderTeam = (team) => {              // team is one object (team) from teamObj
 
         const team_id = team.team_id;
         const team_scores = dataManager.getTeamScores(team_id);
-        const driver_ids = dataManager.getDriverIds(team_id);
+        const driver_names = dataManager.getDriverNames(team_id);
 
         return (
             <tr key={team_id}>
                 <td key={'drivers'}>
-                    {driver_ids.map( (driver,index) => {
+                    {driver_names.map( (driver,index) => {
                         if (index < 3) {
                             return (`${driver} / `)
                         };

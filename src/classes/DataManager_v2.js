@@ -1,9 +1,8 @@
-class DataManager {
+class DataManager2 {
 
     constructor(data) {
         this.driver_table = data.driver_table;
         this.team_table = data.team_table;
-        this.team_scores = data.team_scores;
         this.race_table = data.race_table;
 
         this.race_array = [];
@@ -13,14 +12,14 @@ class DataManager {
     }
 
     sortTeams() {                       //sort teams based on average
-        this.team_table = this.team_table.sort( (a,b) => (a.average > b.average) ? -1 : 1);
+        this.team_table = this.team_table.sort( (a,b) => (a.avg_all_races > b.avg_all_races) ? -1 : 1);
     }
 
-    getTeamIds () {                     //returns [team_id, team_id, ...]
-        let array = [];
-        this.team_table.map( team => array.push( team.team_id ) );
-        return array;
-    }
+    // getTeamIds () {                     //returns [team_id, team_id, ...]
+    //     let array = [];
+    //     this.team_table.map( team => array.push( team.team_id ) );
+    //     return array;
+    // }
 
     getTeamIdsNew() {                   //returns [ {team_id: team_id, race: true, race: true, ...},
                                         //          {team_id: team_id, race: true, race: true, ...}, ...]
@@ -112,4 +111,4 @@ class DataManager {
 
 }
 
-export default DataManager;
+export default DataManager2;
