@@ -3,10 +3,10 @@ import * as ReactBootStrap from 'react-bootstrap';
 
 const Table = ( {dataManager} ) => {
 
-    const [teamsObj, setTeamsObj] = useState( dataManager.getTeamIdsNew() );
+    const [teamsObj, setTeamsObj] = useState( dataManager.getTeamIds() );
     
-    const allRacesArray = dataManager.getRaces();  //i keep this because otherwise i have to loop over Object.keys two times which seems inefficient
-    const [allRacesObj, setAllRacesObj] = useState( dataManager.getRacesNew() );
+    const allRacesArray = dataManager.getRaceArray();  //i keep this because otherwise i have to loop over Object.keys two times which seems inefficient
+    const [allRacesObj, setAllRacesObj] = useState( dataManager.getRaceObj() );
 
     const handleClickHeader = (race) => {
         const newBooleanValue = ! allRacesObj[race];

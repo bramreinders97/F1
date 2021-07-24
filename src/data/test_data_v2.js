@@ -14,15 +14,17 @@ const team_table = [
     { team_id: 2, driver_1: 'Nor', driver_2: 'Sai', driver_3: 'Ver', driver_4: 'Oco', eng: 77, por: 56, avg_all_races: 66.5 }
 ];
 
-const race_table = [
-    {race: 'eng'},
-    {race: 'por'}
-];
+// const race_table = [
+//     {race: 'eng'},
+//     {race: 'por'}
+// ];
+
+const race_array = ['eng', 'por'];
 
 const data = {
     driver_table: driver_table,
     team_table: team_table,
-    race_table: race_table
+    race_array: race_array
 };
 
 export {data};
