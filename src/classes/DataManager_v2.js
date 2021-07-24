@@ -9,13 +9,13 @@ class DataManager2 {
         
     }
 
-    sortTeams() {                       //sort teams based on average
+    sortTeams() {                           //sort teams based on average
         this.team_table = this.team_table.sort( (a,b) => (a.avg_all_races > b.avg_all_races) ? -1 : 1);
     }
 
 
-    getTeamIds() {                   //returns [ {team_id: team_id, race: true, race: true, ...},
-                                        //          {team_id: team_id, race: true, race: true, ...}, ...]
+    getTeamIds() {                          //returns [ {team_id: team_id, race: true, race: true, ...},
+                                            //          {team_id: team_id, race: true, race: true, ...}, ...]
         let arr = [];
 
         this.team_table.forEach( team => {
@@ -28,7 +28,7 @@ class DataManager2 {
     }
     
 
-    getDriverNames(team_id) {             //returns [driver_1, driver_2, driver_3, driver_4]
+    getDriverNames(team_id) {               //returns [driver_1, driver_2, driver_3, driver_4]
         const team = this.team_table.find( team => team.team_id === team_id );
         return [ team.driver_1, team.driver_2, team.driver_3, team.driver_4 ];
     }
@@ -39,7 +39,7 @@ class DataManager2 {
     }
 
 
-    getRaceObj() {                     //returns {race: true, race: true, ...} 
+    getRaceObj() {                          //returns {race: true, race: true, ...} 
         let obj = {};
 
         this.race_array.forEach( race => {
@@ -49,7 +49,7 @@ class DataManager2 {
         return obj;
     }
 
-    getTeamScores(team_id) {            //returns {race: team_score, race: team_score, ...}
+    getTeamScores(team_id) {                //returns {race: team_score, race: team_score, ...}
         const team = this.team_table.find( team => 
             (team.team_id === team_id)
         );      
