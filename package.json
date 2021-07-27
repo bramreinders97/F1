@@ -14,6 +14,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "flask": "cd ../../test/flask_api_test/api && python -m flask run",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -34,5 +35,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "homepage": "http://amsterbram.com/f1_teams"
 }

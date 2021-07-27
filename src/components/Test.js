@@ -3,11 +3,11 @@ import React from 'react';
 const Test = ({dataManager}) => {
 
     const test = () => {
-        const test = dataManager.getDriverScores('Ver');
+        // const test = dataManager.getDriverScores('Ver');
 
 
 
-        console.log(test);
+        // console.log(test);
     
     }
     

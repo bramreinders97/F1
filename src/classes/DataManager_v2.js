@@ -1,4 +1,4 @@
-class DataManager2 {
+class DataManager {
 
     constructor(data) {
         this.driver_table = data.driver_table;
@@ -107,4 +107,4 @@ class DataManager2 {
 
 }
 
-export default DataManager2;
+export default DataManager;
