@@ -96,7 +96,9 @@ class DataManager {
         };
 
         if (count) {
-            return total_points / count;
+            // return total_points / count;
+            // const num = total_points / count;
+            return Math.round((total_points / count + Number.EPSILON) * 100) / 100;
         } else {
             return count;
         };

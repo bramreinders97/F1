@@ -11,7 +11,6 @@ function App() {
   const [renderTable, setRenderTable] = useState(false);
   const [dataManager, setDataManager] = useState();
 
-
   useEffect( () => {
 
     const url = process.env.REACT_APP_BASE_URL;
@@ -36,10 +35,9 @@ function App() {
     );
   } else {
     return (
-      null
+      <h3>Some patience please, API is working hard</h3>
     );
   };
-
 }
 
 export default App;
