@@ -28,14 +28,14 @@ function App() {
     return (
       <div className="App">
         
-        <Test dataManager={dataManager}/>
+        {/* <Test dataManager={dataManager}/> */}
         
         <Table dataManager={dataManager} />     
       </div>
     );
   } else {
     return (
-      <h3>Some patience please, API is working hard</h3>
+      <h3 className='patience'>Some patience please, API is working hard</h3>
     );
   };
 }

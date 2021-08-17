@@ -3,7 +3,7 @@ import * as ReactBootStrap from 'react-bootstrap';
 
 const Table = ( {dataManager} ) => {
 
-    const [teamsObj, setTeamsObj] = useState( dataManager.getTeamIds() );
+    const [teamsObj, setTeamsObj] = useState( dataManager.getTeamIds(15) );
     
     const allRacesArray = dataManager.getRaceArray();  //i keep this because otherwise i have to loop over Object.keys two times which seems inefficient
     const [allRacesObj, setAllRacesObj] = useState( dataManager.getRaceObj() );
@@ -55,9 +55,21 @@ const Table = ( {dataManager} ) => {
                 </td>   
                 {allRacesArray.map( race => {
                         return ( 
-                        <td key={race} onClick={() => handleClickCell(team, race)}>
-                            {team_scores[race]}
-                        </td> )
+                        <ReactBootStrap.OverlayTrigger
+                            placement="left"    
+                            key={race}
+                            overlay={<ReactBootStrap.Tooltip id="button-tooltip" > {driver_names.map(
+                                driver => (`${driver}: ${dataManager.getDriverScore(driver,race)} `   )
+                            )} </ReactBootStrap.Tooltip>}>
+
+                            <td key={race} 
+                                onClick={() => handleClickCell(team, race)} 
+                                className={ team[race] ? 'table-default' : 'table-danger'}
+                                id='clickable'
+                                >
+                                {team_scores[race]}
+                            </td>
+                        </ReactBootStrap.OverlayTrigger> )
                     })}
             </tr>
         )
@@ -72,8 +84,11 @@ const Table = ( {dataManager} ) => {
                 <th>Average</th>
                 {allRacesArray.map( race => {
                     return ( 
-                    <th key={race} onClick={() => handleClickHeader(race)}>
-                        {race}
+                    <th key={race} 
+                        onClick={() => handleClickHeader(race)}
+                        id='clickable'
+                        >
+                        {race.replace('_',' ')}
                     </th> 
                     )})}
                 </tr>

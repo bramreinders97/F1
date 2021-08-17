@@ -14,7 +14,7 @@ class DataManager {
     }
 
 
-    getTeamIds() {                          //returns [ {team_id: team_id, race: true, race: true, ...},
+    getTeamIds(amountOfTeams) {                          //returns [ {team_id: team_id, race: true, race: true, ...},
                                             //          {team_id: team_id, race: true, race: true, ...}, ...]
         let arr = [];
 
@@ -24,7 +24,7 @@ class DataManager {
             arr.push(obj);
         })
 
-        return arr; 
+        return arr.slice(0,amountOfTeams); 
     }
     
 
@@ -63,7 +63,8 @@ class DataManager {
         return newObj;
     }
 
-    getDriverScores(driver_name) {        //returns {race: driver_score, race: driver_score, ...}
+
+    getDriverScore(driver_name, race) {        //returns {race: driver_score, race: driver_score, ...}
 
         //think about just returning {driver_name: driver_name, race: driver_score, race: driver_score, ...}
 
@@ -71,11 +72,11 @@ class DataManager {
             ( driver.driver_name === driver_name )
         );
 
-        let newObj = {...driver_object};
+        // let newObj = {...driver_object};
 
-        delete newObj.driver_name;
+        // delete newObj.driver_name;
 
-        return newObj;
+        return driver_object[race];
     }   
 
     getAverage(team_race_object, team_scores) {         //returns average of scores where race: true
@@ -95,9 +96,7 @@ class DataManager {
             }
         };
 
-        if (count) {
-            // return total_points / count;
-            // const num = total_points / count;
+        if (count) {                                    //to ensure correct rounding we use epsilon stuff
             return Math.round((total_points / count + Number.EPSILON) * 100) / 100;
         } else {
             return count;
