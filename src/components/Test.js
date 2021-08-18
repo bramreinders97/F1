@@ -1,22 +1,17 @@
 import React from 'react';
 
-const Test = ({dataManager}) => {
+const Test = ({number,handleTest}) => {
 
-    const test = () => {
-        // const test = dataManager.getDriverScores('Ver');
-
-
-
-        // console.log(test);
-    
-    }
-    
-    test();
 
     return ( 
+        <div>
+        <button onClick={() => handleTest(5)}>
+            Test
+        </button>
         <p>
-             Should be Ham: 
+            {number}
         </p>
+        </div>
     )
 }
 

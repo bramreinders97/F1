@@ -1,6 +1,7 @@
 import './App.css';
 import Test from './components/Test';
-import Table from './components/Table';
+import TableHead from './components/Table_Head';
+// import Table from './components/Table';
 // import {data as data2} from './data/test_data_v2';
 import DataManager from './classes/DataManager_v2';
 import { useEffect, useState } from 'react';
@@ -29,8 +30,9 @@ function App() {
       <div className="App">
         
         {/* <Test dataManager={dataManager}/> */}
+        <TableHead dataManager={dataManager} />
         
-        <Table dataManager={dataManager} />     
+        {/* <Table dataManager={dataManager} />      */}
       </div>
     );
   } else {
