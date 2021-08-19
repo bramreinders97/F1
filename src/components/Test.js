@@ -1,17 +1,18 @@
 import React from 'react';
+import * as ReactBootStrap from 'react-bootstrap';
 
 const Test = ({number,handleTest}) => {
 
 
     return ( 
-        <div>
-        <button onClick={() => handleTest(5)}>
-            Test
-        </button>
-        <p>
-            {number}
-        </p>
-        </div>
+        <React.Fragment>
+        <ReactBootStrap.Button variant='primary'>
+            +
+        </ReactBootStrap.Button>
+        <ReactBootStrap.Button variant='warning'>
+            -
+        </ReactBootStrap.Button>
+        </React.Fragment>
     )
 }
 

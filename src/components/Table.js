@@ -1,39 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import * as ReactBootStrap from 'react-bootstrap';
 
-const Table = ( {dataManager,teamsObj,allRacesArray,allRacesObj,handleClickHeader,handleClickCell} ) => {
-
-//     // const [teamsObj, setTeamsObj] = useState( dataManager.getTeamIds(15) );
-    
-//     // const allRacesArray = dataManager.getRaceArray();  //i keep this because otherwise i have to loop over Object.keys two times which seems inefficient
-//     // const [allRacesObj, setAllRacesObj] = useState( dataManager.getRaceObj() );
-
-//     // const handleClickHeader = (race) => {
-//     //     const newBooleanValue = ! allRacesObj[race];
-        
-//     //     let newRaceObj = {...allRacesObj};
-//     //     newRaceObj[race] = newBooleanValue;        
-//     //     setAllRacesObj(newRaceObj);
-
-//     //     let newTeamsObj = [...teamsObj];
-//     //     newTeamsObj.forEach( team => {
-//     //         team[race] = newBooleanValue;
-//     //     });
-//     //     setTeamsObj(newTeamsObj);
-//     // }
-
-//     // const handleClickCell = (team, race) => {
-//     //     const index = teamsObj.indexOf(team);
-//     //     let newTeamsObj = [...teamsObj];
-//     //     newTeamsObj[index][race] = ! newTeamsObj[index][race];
-//     //     setTeamsObj(newTeamsObj);
-//     // }
-
-//     // useEffect( () => {
-//     //     // console.log('allRacesObj',allRacesObj);
-//     //     // console.log('team 2',teamsObj[0]);
-//     //     // console.log('team 1',teamsObj[1]);
-//     // }, [ allRacesObj, teamsObj ] );
+const Table = ( {dataManager,teamsObj,allRacesArray,handleClickHeader,handleClickCell,handleClickTeam} ) => {
 
     const renderTeam = (team) => {              // team is one object (team) from teamObj
 
@@ -43,8 +11,12 @@ const Table = ( {dataManager,teamsObj,allRacesArray,allRacesObj,handleClickHeade
 
         return (
             <tr key={team_id}>
-                <td key={'drivers'}>
-                    {driver_names.map( (driver,index) => {
+                <td key={'drivers'}
+                    className={ team.selected ? 'table-success' : 'table-default'}
+                    onClick={() => handleClickTeam(team)}
+                    id='clickable'
+                    >
+                        {driver_names.map( (driver,index) => {
                         if (index < 3) {
                             return (`${driver} / `)
                         };

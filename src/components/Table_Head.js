@@ -1,22 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Test from './Test';
+import * as ReactBootStrap from 'react-bootstrap';
 import Table from './Table';
 
 
 const TableHead = ( {dataManager} ) => {
     
-    // const [stateTest,setStateTest] = useState(4)
-    
-    // //test function
-    // const handleTest = (i) => {
-    //     setStateTest(i);
-    //     console.log('clicked')
-    // }
-
-    // useEffect( () => {
-    // }, [ stateTest ] );
-
-    const [teamsObj, setTeamsObj] = useState( dataManager.getTeamIds(15) );
+    const [nmbrTeamsToShow, setNmbrTeamsToShow] = useState(15);
+    const [teamsObj, setTeamsObj] = useState( dataManager.getTeamIds(nmbrTeamsToShow) );
     
     const allRacesArray = dataManager.getRaceArray();  //i keep this because otherwise i have to loop over Object.keys two times which seems inefficient
     const [allRacesObj, setAllRacesObj] = useState( dataManager.getRaceObj() );
@@ -42,24 +33,47 @@ const TableHead = ( {dataManager} ) => {
         setTeamsObj(newTeamsObj);
     }
 
+    const handleClickTeam = (team) => {
+        const index = teamsObj.indexOf(team);
+        let newTeamsObj = [...teamsObj];
+        newTeamsObj[index].selected = ! newTeamsObj[index].selected;
+        setTeamsObj(newTeamsObj);
+    }
+
+    const handleButtonClick = (operation) => {
+        const old_value = nmbrTeamsToShow;
+        setNmbrTeamsToShow(old_value + operation);
+    }
+
     useEffect( () => {
-        // console.log('allRacesObj',allRacesObj);
-        // console.log('team 2',teamsObj[0]);
-        // console.log('team 1',teamsObj[1]);
+        setTeamsObj(dataManager.getTeamIds(nmbrTeamsToShow))
+    }, [ nmbrTeamsToShow ] );
+
+    useEffect( () => {
     }, [ allRacesObj, teamsObj ] );
 
 
     return ( 
-        // <Test number={stateTest} handleTest={handleTest}/>
+        <React.Fragment>
+                    
+        <ReactBootStrap.Button variant='primary' onClick={() => handleButtonClick(1)}>
+            +
+        </ReactBootStrap.Button>
+        <ReactBootStrap.Button variant='warning' onClick={() => handleButtonClick(-1)}>
+            -
+        </ReactBootStrap.Button>
+        
         
         <Table 
             dataManager={dataManager}
             teamsObj={teamsObj}
             allRacesArray={allRacesArray}
-            allRacesObj={allRacesObj}
             handleClickHeader={handleClickHeader}
             handleClickCell={handleClickCell}
+            handleClickTeam={handleClickTeam}
         />
+        
+        </React.Fragment>  
         
     )
 }

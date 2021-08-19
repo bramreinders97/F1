@@ -19,7 +19,7 @@ class DataManager {
         let arr = [];
 
         this.team_table.forEach( team => {
-            let obj = {team_id: team.team_id};
+            let obj = {team_id: team.team_id, selected: false};
             this.race_array.forEach( race => obj[race] = true);
             arr.push(obj);
         })
@@ -84,6 +84,7 @@ class DataManager {
         const newObj = {...team_race_object};
         
         delete newObj.team_id;
+        delete newObj.selected;
         
         let count = 0;
         let total_points = 0;

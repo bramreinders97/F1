@@ -32,7 +32,6 @@ function App() {
         {/* <Test dataManager={dataManager}/> */}
         <TableHead dataManager={dataManager} />
         
-        {/* <Table dataManager={dataManager} />      */}
       </div>
     );
   } else {
