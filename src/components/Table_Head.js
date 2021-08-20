@@ -22,14 +22,17 @@ const TableHead = ( {dataManager} ) => {
         let newTeamsObj = [...teamsObj];
         newTeamsObj.forEach( team => {
             team[race] = newBooleanValue;
+            const team_scores = dataManager.getTeamScores(team.team_id); 
+            team.avg = dataManager.getAverage(team,team_scores);    
         });
         setTeamsObj(newTeamsObj);
     }
 
-    const handleClickCell = (team, race) => {
+    const handleClickCell = (team, race, team_scores) => {  
         const index = teamsObj.indexOf(team);
         let newTeamsObj = [...teamsObj];
         newTeamsObj[index][race] = ! newTeamsObj[index][race];
+        newTeamsObj[index].avg = dataManager.getAverage(newTeamsObj[index],team_scores);  
         setTeamsObj(newTeamsObj);
     }
 
@@ -47,7 +50,7 @@ const TableHead = ( {dataManager} ) => {
 
     useEffect( () => {
         setTeamsObj(dataManager.getTeamIds(nmbrTeamsToShow))
-    }, [ nmbrTeamsToShow ] );
+    }, [ nmbrTeamsToShow, dataManager ] ); //dataManager not really nacessary but to silence the warning
 
     useEffect( () => {
     }, [ allRacesObj, teamsObj ] );

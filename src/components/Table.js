@@ -23,7 +23,7 @@ const Table = ( {dataManager,teamsObj,allRacesArray,handleClickHeader,handleClic
                         return (`${driver}`)})}
                 </td>
                 <td key={'average'}>
-                    {dataManager.getAverage(team,team_scores)}
+                    {team.avg} 
                 </td>   
                 {allRacesArray.map( race => {
                         return ( 
@@ -35,7 +35,7 @@ const Table = ( {dataManager,teamsObj,allRacesArray,handleClickHeader,handleClic
                             )} </ReactBootStrap.Tooltip>}>
 
                             <td key={race} 
-                                onClick={() => handleClickCell(team, race)} 
+                                onClick={() => handleClickCell(team, race, team_scores)} 
                                 className={ team[race] ? 'table-default' : 'table-danger'}
                                 id='clickable'
                                 >

@@ -14,13 +14,14 @@ class DataManager {
     }
 
 
-    getTeamIds(amountOfTeams) {                          //returns [ {team_id: team_id, race: true, race: true, ...},
-                                            //          {team_id: team_id, race: true, race: true, ...}, ...]
+    getTeamIds(amountOfTeams) {                          //returns [ {team_id: team_id, selected: false, race: true, race: true, ..., avg: avg_all_races},
+                                                                  // {team_id: team_id, selected: false, race: true, race: true, ..., avg: avg_all_races}, ...]
         let arr = [];
 
         this.team_table.forEach( team => {
             let obj = {team_id: team.team_id, selected: false};
             this.race_array.forEach( race => obj[race] = true);
+            obj.avg = Math.round((team.avg_all_races + Number.EPSILON) * 100) / 100;
             arr.push(obj);
         })
 
@@ -85,6 +86,7 @@ class DataManager {
         
         delete newObj.team_id;
         delete newObj.selected;
+        delete newObj.avg; 
         
         let count = 0;
         let total_points = 0;
