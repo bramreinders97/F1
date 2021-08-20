@@ -14,7 +14,7 @@ class DataManager {
     }
 
 
-    getTeamIds(amountOfTeams) {                          //returns [ {team_id: team_id, selected: false, race: true, race: true, ..., avg: avg_all_races},
+    getTeamIds() {                          //returns [ {team_id: team_id, selected: false, race: true, race: true, ..., avg: avg_all_races},
                                                                   // {team_id: team_id, selected: false, race: true, race: true, ..., avg: avg_all_races}, ...]
         let arr = [];
 
@@ -25,7 +25,8 @@ class DataManager {
             arr.push(obj);
         })
 
-        return arr.slice(0,amountOfTeams); 
+        // return arr.slice(0,amountOfTeams); 
+        return arr
     }
     
 

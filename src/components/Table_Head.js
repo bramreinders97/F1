@@ -7,10 +7,26 @@ import Table from './Table';
 const TableHead = ( {dataManager} ) => {
     
     const [nmbrTeamsToShow, setNmbrTeamsToShow] = useState(15);
-    const [teamsObj, setTeamsObj] = useState( dataManager.getTeamIds(nmbrTeamsToShow) );
+    const [allTeamsObj, setAllTeamsObj] = useState( dataManager.getTeamIds() );
+    const [shownTeamsObj, setShownTeamsObj] = useState( allTeamsObj.slice(0,nmbrTeamsToShow) );
     
     const allRacesArray = dataManager.getRaceArray();  //i keep this because otherwise i have to loop over Object.keys two times which seems inefficient
     const [allRacesObj, setAllRacesObj] = useState( dataManager.getRaceObj() );
+
+    const combineObjects = (ObjOne,ObjTwo) => {  //for two, use originalTeamObj.slice(0,nmrOfTeams) after making a copy firts
+
+        const mergedArray = [...ObjOne, ...ObjTwo];
+        let set = new Set();
+        let unionArray = mergedArray.filter(item => {
+            if (!set.has(item.team_id)) {
+                set.add(item.team_id);
+                return true;
+            }
+            return false;
+            }, set);
+        
+        return unionArray;
+    };
 
     const handleClickHeader = (race) => {
         const newBooleanValue = ! allRacesObj[race];
@@ -19,28 +35,33 @@ const TableHead = ( {dataManager} ) => {
         newRaceObj[race] = newBooleanValue;        
         setAllRacesObj(newRaceObj);
 
-        let newTeamsObj = [...teamsObj];
-        newTeamsObj.forEach( team => {
+        let newallTeamsObj = [...allTeamsObj];
+        newallTeamsObj.forEach( team => {
             team[race] = newBooleanValue;
             const team_scores = dataManager.getTeamScores(team.team_id); 
             team.avg = dataManager.getAverage(team,team_scores);    
         });
-        setTeamsObj(newTeamsObj);
+        setAllTeamsObj(newallTeamsObj);
+
+        setShownTeamsObj( newallTeamsObj.slice(0, nmbrTeamsToShow) );
     }
 
     const handleClickCell = (team, race, team_scores) => {  
-        const index = teamsObj.indexOf(team);
-        let newTeamsObj = [...teamsObj];
+        const index = shownTeamsObj.indexOf(team);
+        let newTeamsObj = [...shownTeamsObj];
         newTeamsObj[index][race] = ! newTeamsObj[index][race];
         newTeamsObj[index].avg = dataManager.getAverage(newTeamsObj[index],team_scores);  
-        setTeamsObj(newTeamsObj);
+        setShownTeamsObj(newTeamsObj);
+
+        const newOriginal  = combineObjects(newTeamsObj,allTeamsObj);
+        setAllTeamsObj(newOriginal);
     }
 
     const handleClickTeam = (team) => {
-        const index = teamsObj.indexOf(team);
-        let newTeamsObj = [...teamsObj];
+        const index = shownTeamsObj.indexOf(team);
+        let newTeamsObj = [...shownTeamsObj];
         newTeamsObj[index].selected = ! newTeamsObj[index].selected;
-        setTeamsObj(newTeamsObj);
+        setShownTeamsObj(newTeamsObj);
     }
 
     const handleButtonClick = (operation) => {
@@ -49,11 +70,11 @@ const TableHead = ( {dataManager} ) => {
     }
 
     useEffect( () => {
-        setTeamsObj(dataManager.getTeamIds(nmbrTeamsToShow))
+        setShownTeamsObj( allTeamsObj.slice(0,nmbrTeamsToShow) )
     }, [ nmbrTeamsToShow, dataManager ] ); //dataManager not really nacessary but to silence the warning
 
     useEffect( () => {
-    }, [ allRacesObj, teamsObj ] );
+    }, [ allRacesObj, shownTeamsObj ] );
 
 
     return ( 
@@ -69,7 +90,7 @@ const TableHead = ( {dataManager} ) => {
         
         <Table 
             dataManager={dataManager}
-            teamsObj={teamsObj}
+            teamsObj={shownTeamsObj}
             allRacesArray={allRacesArray}
             handleClickHeader={handleClickHeader}
             handleClickCell={handleClickCell}

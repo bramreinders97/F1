@@ -2,10 +2,10 @@ import React from 'react';
 
 const Test = () => {
 
-    const one = [{team:1,selected:false,bah:true}];
+    const one = [{team_id:1,selected:false,bah:true}];
     
-    const two = [{team:1,selected:false,bah:false}, //so from original this one comes, hence the false
-                 {team:2,selected:false,bah:false}];
+    const two = [{team_id:1,selected:false,bah:false}, //so from original this one comes, hence the false
+                 {team_id:2,selected:false,bah:false}];
 
     
     
@@ -15,8 +15,8 @@ const Test = () => {
         const mergedArray = [...ObjOne, ...ObjTwo];
         let set = new Set();
         let unionArray = mergedArray.filter(item => {
-            if (!set.has(item.team)) {
-                set.add(item.team);
+            if (!set.has(item.team_id)) {
+                set.add(item.team_id);
                 return true;
             }
             return false;
@@ -25,7 +25,7 @@ const Test = () => {
         return unionArray;
     };
     
-    // console.log(combineObjects(one,two));
+    console.log(combineObjects(one,two));
 
     return ( 
         <p>Check console</p>
