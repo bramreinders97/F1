@@ -13,8 +13,7 @@ const TableHead = ( {dataManager} ) => {
     const allRacesArray = dataManager.getRaceArray();  //i keep this because otherwise i have to loop over Object.keys two times which seems inefficient
     const [allRacesObj, setAllRacesObj] = useState( dataManager.getRaceObj() );
 
-    const combineObjects = (ObjOne,ObjTwo) => {  //for two, use originalTeamObj.slice(0,nmrOfTeams) after making a copy firts
-
+    const combineObjects = (ObjOne,ObjTwo) => {  
         const mergedArray = [...ObjOne, ...ObjTwo];
         let set = new Set();
         let unionArray = mergedArray.filter(item => {
@@ -69,6 +68,14 @@ const TableHead = ( {dataManager} ) => {
         setNmbrTeamsToShow(old_value + operation);
     }
 
+    const handleClickSort = () => {
+        let newTeamObj = [...allTeamsObj];
+        newTeamObj = newTeamObj.sort( (a,b) => (a.avg > b.avg) ? -1 : 1);
+        setAllTeamsObj(newTeamObj);
+
+        setShownTeamsObj(newTeamObj.slice(0,nmbrTeamsToShow));
+    };
+
     useEffect( () => {
         setShownTeamsObj( allTeamsObj.slice(0,nmbrTeamsToShow) )
     }, [ nmbrTeamsToShow, dataManager ] ); //dataManager not really nacessary but to silence the warning
@@ -85,6 +92,9 @@ const TableHead = ( {dataManager} ) => {
         </ReactBootStrap.Button>
         <ReactBootStrap.Button variant='warning' onClick={() => handleButtonClick(-1)}>
             -
+        </ReactBootStrap.Button>
+        <ReactBootStrap.Button variant='secondary' onClick={() => handleClickSort()}>
+            Sort
         </ReactBootStrap.Button>
         
         

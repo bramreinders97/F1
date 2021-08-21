@@ -68,15 +68,9 @@ class DataManager {
 
     getDriverScore(driver_name, race) {        //returns {race: driver_score, race: driver_score, ...}
 
-        //think about just returning {driver_name: driver_name, race: driver_score, race: driver_score, ...}
-
         const driver_object = this.driver_table.find( driver => 
             ( driver.driver_name === driver_name )
         );
-
-        // let newObj = {...driver_object};
-
-        // delete newObj.driver_name;
 
         return driver_object[race];
     }   
@@ -108,7 +102,39 @@ class DataManager {
 
     }
 
+    getLogicalString(driver) { 
+        return `(team.driver_1 == '${driver}' || team.driver_2 == '${driver}' || team.driver_3 == '${driver}' || team.driver_4 == '${driver}')`;
+    }
 
+    getPossibleTeamMates(driver_1,driver_2=null,driver_3=null,possible_teams_previously_returned=null) {
+
+        const teams_to_check = possible_teams_previously_returned ? possible_teams_previously_returned : [...this.team_table]; //so you don't have to loop over the entire table every time
+
+        //get logical expression depending on the amount of drivers known
+        let logical_expression = this.getLogicalString(driver_1);
+        logical_expression += driver_2 ? ` && ${this.getLogicalString(driver_2)}` : '';
+        logical_expression += driver_3 ? ` && ${this.getLogicalString(driver_3)}` : '';
+        
+        //get the selection of teams with driver_1 & driver_2 enz
+        const possible_teams = teams_to_check.filter(team => {
+            if (eval(logical_expression)) {
+                return team
+            };
+        });
+        
+        //get all possible team mates and put in array
+        let possible_team_mates = [];
+        possible_teams.forEach(team => {
+            [team.driver_1,team.driver_2,team.driver_3,team.driver_4].forEach(driver => {
+                if ( (! possible_team_mates.includes(driver) ) && (! [driver_1,driver_2,driver_3].includes(driver)) ) {
+                    possible_team_mates.push(driver);
+                };
+            });
+        });
+
+        return [possible_team_mates,possible_teams];
+
+    }
 
 }
 

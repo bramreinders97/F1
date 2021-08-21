@@ -29,7 +29,7 @@ function App() {
     return (
       <div className="App">
         
-        <Test/>
+        <Test dataManager={dataManager}/>
         <TableHead dataManager={dataManager} />
         
       </div>

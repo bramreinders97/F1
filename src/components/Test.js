@@ -1,34 +1,22 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
-const Test = () => {
+const Test = ({dataManager}) => {
 
-    const one = [{team_id:1,selected:false,bah:true}];
-    
-    const two = [{team_id:1,selected:false,bah:false}, //so from original this one comes, hence the false
-                 {team_id:2,selected:false,bah:false}];
+   let [possible_team_mates,possible_teams] = dataManager.getPossibleTeamMates('VER');
+   console.log('possible_team_mates',possible_team_mates);
+   console.log('possible_teams',possible_teams);
 
-    
-    
+   [possible_team_mates,possible_teams] = dataManager.getPossibleTeamMates('VER','HAM',null,possible_teams);
+   console.log('possible_team_mates',possible_team_mates);
+   console.log('possible_teams',possible_teams);
 
-    const combineObjects = (ObjOne,ObjTwo) => {  //for two, use originalTeamObj.slice(0,nmrOfTeams) after making a copy firts
+   [possible_team_mates,possible_teams] = dataManager.getPossibleTeamMates('VER','HAM','MAZ',possible_teams);
+   console.log('possible_team_mates',possible_team_mates);
+   console.log('possible_teams',possible_teams);
 
-        const mergedArray = [...ObjOne, ...ObjTwo];
-        let set = new Set();
-        let unionArray = mergedArray.filter(item => {
-            if (!set.has(item.team_id)) {
-                set.add(item.team_id);
-                return true;
-            }
-            return false;
-            }, set);
-        
-        return unionArray;
-    };
-    
-    console.log(combineObjects(one,two));
 
     return ( 
-        <p>Check console</p>
+        <p>{'logical_expression'}</p>
     )
 }
 
