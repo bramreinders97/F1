@@ -1,5 +1,6 @@
 import './App.css';
 import Test from './components/Test';
+// import Test2 from './components/Test2';
 import TableHead from './components/Table_Head';
 // import Table from './components/Table';
 // import {data as data2} from './data/test_data_v2';

@@ -103,18 +103,38 @@ class DataManager {
     }
 
     getLogicalString(driver) { 
-        return `(team.driver_1 == '${driver}' || team.driver_2 == '${driver}' || team.driver_3 == '${driver}' || team.driver_4 == '${driver}')`;
+        return `(team.driver_1 === '${driver}' || team.driver_2 === '${driver}' || team.driver_3 === '${driver}' || team.driver_4 === '${driver}')`;
     }
 
-    getPossibleTeamMates(driver_1,driver_2=null,driver_3=null,possible_teams_previously_returned=null) {
+    getPossibleTeamMates(driver_array) {
 
-        const teams_to_check = possible_teams_previously_returned ? possible_teams_previously_returned : [...this.team_table]; //so you don't have to loop over the entire table every time
+        if (driver_array.every(element => element === null)) {
+            let possible_team_mates = [];
+            this.driver_table.forEach(driver_row => {
+                possible_team_mates.push(driver_row.driver_name);
+            })
+            return possible_team_mates;
+        } else if (driver_array.every(element => element != null)) {
+            return [];
+        }
+
+        //if still something to choose (but not all), proceed as originally intended
+        const driver_1 = driver_array[0];
+        const driver_2 = driver_array[1];
+        const driver_3 = driver_array[2];
+        const driver_4 = driver_array[3];
+
+        const teams_to_check =  [...this.team_table]; 
 
         //get logical expression depending on the amount of drivers known
-        let logical_expression = this.getLogicalString(driver_1);
+        let logical_expression = '';
+        logical_expression += driver_1 ? ` && ${this.getLogicalString(driver_1)}` : '';
         logical_expression += driver_2 ? ` && ${this.getLogicalString(driver_2)}` : '';
         logical_expression += driver_3 ? ` && ${this.getLogicalString(driver_3)}` : '';
-        
+        logical_expression += driver_4 ? ` && ${this.getLogicalString(driver_4)}` : '';
+
+        logical_expression = logical_expression.substring(4); //remove && from start
+
         //get the selection of teams with driver_1 & driver_2 enz
         const possible_teams = teams_to_check.filter(team => {
             if (eval(logical_expression)) {
@@ -126,13 +146,13 @@ class DataManager {
         let possible_team_mates = [];
         possible_teams.forEach(team => {
             [team.driver_1,team.driver_2,team.driver_3,team.driver_4].forEach(driver => {
-                if ( (! possible_team_mates.includes(driver) ) && (! [driver_1,driver_2,driver_3].includes(driver)) ) {
+                if ( (! possible_team_mates.includes(driver) ) && (! driver_array.includes(driver)) ) {
                     possible_team_mates.push(driver);
                 };
             });
         });
 
-        return [possible_team_mates,possible_teams];
+        return possible_team_mates;
 
     }
 

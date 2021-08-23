@@ -1,22 +1,16 @@
 import React, {useEffect, useState} from 'react';
+import * as ReactBootStrap from 'react-bootstrap';
+import SimpleSelect from './DriverSelector';
 
 const Test = ({dataManager}) => {
 
-   let [possible_team_mates,possible_teams] = dataManager.getPossibleTeamMates('VER');
+   const possible_team_mates = dataManager.getPossibleTeamMates([null,null,null,null]);
    console.log('possible_team_mates',possible_team_mates);
-   console.log('possible_teams',possible_teams);
 
-   [possible_team_mates,possible_teams] = dataManager.getPossibleTeamMates('VER','HAM',null,possible_teams);
-   console.log('possible_team_mates',possible_team_mates);
-   console.log('possible_teams',possible_teams);
-
-   [possible_team_mates,possible_teams] = dataManager.getPossibleTeamMates('VER','HAM','MAZ',possible_teams);
-   console.log('possible_team_mates',possible_team_mates);
-   console.log('possible_teams',possible_teams);
-
+   
 
     return ( 
-        <p>{'logical_expression'}</p>
+        <SimpleSelect dataManager={dataManager}/>
     )
 }
 
