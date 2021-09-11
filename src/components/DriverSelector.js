@@ -5,6 +5,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -16,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SimpleSelect = ({dataManager}) => {
+const SimpleSelect = ({dataManager,handleClickSubmitTeam}) => {
 
   const classes = useStyles();
   const [formValues,setFormValues] = useState([null,null,null,null]);
@@ -36,7 +37,7 @@ const SimpleSelect = ({dataManager}) => {
   return (
     <div>
       <FormControl className={classes.formControl}>
-        <InputLabel id="demo-simple-select-label">Age</InputLabel>
+        <InputLabel id="demo-simple-select-label">Driver 1</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
@@ -50,7 +51,7 @@ const SimpleSelect = ({dataManager}) => {
         </Select>
       </FormControl>
       <FormControl className={classes.formControl}>
-        <InputLabel id="demo-simple-select-label">Age</InputLabel>
+        <InputLabel id="demo-simple-select-label">Driver 2</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
@@ -64,7 +65,7 @@ const SimpleSelect = ({dataManager}) => {
         </Select>
       </FormControl>
       <FormControl className={classes.formControl}>
-        <InputLabel id="demo-simple-select-label">Age</InputLabel>
+        <InputLabel id="demo-simple-select-label">Driver 3</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
@@ -78,7 +79,7 @@ const SimpleSelect = ({dataManager}) => {
         </Select>
       </FormControl>
       <FormControl className={classes.formControl}>
-        <InputLabel id="demo-simple-select-label">Age</InputLabel>
+        <InputLabel id="demo-simple-select-label">Driver 4</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
@@ -91,6 +92,13 @@ const SimpleSelect = ({dataManager}) => {
           {dataManager.getPossibleTeamMates([formValues[0],formValues[1],formValues[2],null]).sort().map(driver => <MenuItem value={driver}>{driver}</MenuItem>)}
         </Select>
       </FormControl>
+      <Button variant="contained" color="primary" id='submit_button' 
+      onClick={() => {
+        const team_id = dataManager.findTeam(formValues[0],formValues[1],formValues[2],formValues[3]);
+        handleClickSubmitTeam(team_id);
+      }}>
+          Select Team
+      </Button>
     </div>
   );
 }

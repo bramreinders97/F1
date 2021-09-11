@@ -54,3 +54,7 @@
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
+
+#submit_button {
+  margin-top: 20px;
+}

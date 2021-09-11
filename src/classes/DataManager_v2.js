@@ -13,9 +13,17 @@ class DataManager {
         this.team_table = this.team_table.sort( (a,b) => (a.avg_all_races > b.avg_all_races) ? -1 : 1);
     }
 
+    findTeam(driver_1, driver_2, driver_3, driver_4) {
+        
+        const team = this.team_table.find( team => ( (team.driver_1 === driver_1) || (team.driver_2 === driver_1) || (team.driver_3 === driver_1) || (team.driver_4 === driver_1) ) && ( (team.driver_1 === driver_2) || (team.driver_2 === driver_2) || (team.driver_3 === driver_2) || (team.driver_4 === driver_2) ) && ( (team.driver_1 === driver_3) || (team.driver_2 === driver_3) || (team.driver_3 === driver_3) || (team.driver_4 === driver_3) ) && ( (team.driver_1 === driver_4) || (team.driver_2 === driver_4) || (team.driver_3 === driver_4) || (team.driver_4 === driver_4) ));  
+        //did not have enough time to do this in an efficient way, sorry to myself if I see this code later
+
+        return team.team_id;
+    }
+
 
     getTeamIds() {                          //returns [ {team_id: team_id, selected: false, race: true, race: true, ..., avg: avg_all_races},
-                                                                  // {team_id: team_id, selected: false, race: true, race: true, ..., avg: avg_all_races}, ...]
+                                                     // {team_id: team_id, selected: false, race: true, race: true, ..., avg: avg_all_races}, ...]
         let arr = [];
 
         this.team_table.forEach( team => {

@@ -30,7 +30,7 @@ function App() {
     return (
       <div className="App">
         
-        <Test dataManager={dataManager}/>
+        {/* <Test dataManager={dataManager}/> */}
         <TableHead dataManager={dataManager} />
         
       </div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Test from './Test';
 import Test2 from './DriverSelector';
+import SimpleSelect from './DriverSelector';
 import * as ReactBootStrap from 'react-bootstrap';
 import Table from './Table';
 
@@ -13,6 +14,8 @@ const TableHead = ( {dataManager} ) => {
     
     const allRacesArray = dataManager.getRaceArray();  //i keep this because otherwise i have to loop over Object.keys two times which seems inefficient
     const [allRacesObj, setAllRacesObj] = useState( dataManager.getRaceObj() );
+
+    const [showingTopX, setShowingTopX] = useState(true);
 
     const combineObjects = (ObjOne,ObjTwo) => {  
         const mergedArray = [...ObjOne, ...ObjTwo];
@@ -43,7 +46,11 @@ const TableHead = ( {dataManager} ) => {
         });
         setAllTeamsObj(newallTeamsObj);
 
-        setShownTeamsObj( newallTeamsObj.slice(0, nmbrTeamsToShow) );
+        if (showingTopX) {
+            setShownTeamsObj(newallTeamsObj.slice(0,nmbrTeamsToShow));
+        } else {
+            setShownTeamsObj(newallTeamsObj.filter( team => team.selected === true));
+        };
     }
 
     const handleClickCell = (team, race, team_scores) => {  
@@ -70,15 +77,63 @@ const TableHead = ( {dataManager} ) => {
     }
 
     const handleClickSort = () => {
-        let newTeamObj = [...allTeamsObj];
-        newTeamObj = newTeamObj.sort( (a,b) => (a.avg > b.avg) ? -1 : 1);
-        setAllTeamsObj(newTeamObj);
+        if (showingTopX) {
+            let newTeamObj = [...allTeamsObj];
+            newTeamObj = newTeamObj.sort( (a,b) => (a.avg > b.avg) ? -1 : 1);
+            setAllTeamsObj(newTeamObj);
+    
+            setShownTeamsObj(newTeamObj.slice(0,nmbrTeamsToShow));
+        } else {
+            let newTeamObj = [...shownTeamsObj];
+            newTeamObj = newTeamObj.sort( (a,b) => (a.avg > b.avg) ? -1 : 1);
+            setShownTeamsObj(newTeamObj);
+        };
+       
+    };
 
-        setShownTeamsObj(newTeamObj.slice(0,nmbrTeamsToShow));
+    const handleClickSubmitTeam = (team_id) => {
+        
+        const index = allTeamsObj.findIndex( (team) => team.team_id === team_id);
+        let newTeamObj = [...allTeamsObj];
+        newTeamObj[index].selected = true;
+
+        setAllTeamsObj(newTeamObj);
+        
+        if (showingTopX) {
+            setShownTeamsObj(newTeamObj.slice(0,nmbrTeamsToShow));
+        } else {
+            setShownTeamsObj(newTeamObj.filter( team => team.selected === true));
+        };
+        
+    };
+
+    const handleGreenButtonClick = () => {
+        if (showingTopX) {
+            setShowingTopX(false);
+
+            let onlySelectedObj = [...allTeamsObj].filter( team => team.selected === true);
+            setShownTeamsObj(onlySelectedObj);
+
+        } else {
+            setShowingTopX(true);
+
+            const newObj = [...allTeamsObj].sort( (a,b) => (a.avg > b.avg) ? -1 : 1);
+            setShownTeamsObj(newObj.slice(0,nmbrTeamsToShow));   
+        };
+    };
+
+    const handleUnselectAll = () => {
+        let newObj = [...allTeamsObj];
+        newObj.forEach( team => team.selected = false);
+        setAllTeamsObj(newObj);
+        setShownTeamsObj(newObj.slice(0,nmbrTeamsToShow));
+        setShowingTopX(true);
     };
 
     useEffect( () => {
-        setShownTeamsObj( allTeamsObj.slice(0,nmbrTeamsToShow) )
+        if (showingTopX) {
+            setShownTeamsObj( allTeamsObj.slice(0,nmbrTeamsToShow) );
+        } ;
     }, [ nmbrTeamsToShow, dataManager ] ); //dataManager not really nacessary but to silence the warning
 
     useEffect( () => {
@@ -87,7 +142,9 @@ const TableHead = ( {dataManager} ) => {
 
     return ( 
         <React.Fragment>
-        {/* <Test2/> */}
+
+        <SimpleSelect dataManager={dataManager} handleClickSubmitTeam={handleClickSubmitTeam}/>
+
         <ReactBootStrap.Button variant='primary' onClick={() => handleButtonClick(1)}>
             +
         </ReactBootStrap.Button>
@@ -97,7 +154,12 @@ const TableHead = ( {dataManager} ) => {
         <ReactBootStrap.Button variant='secondary' onClick={() => handleClickSort()}>
             Sort
         </ReactBootStrap.Button>
-        
+        <ReactBootStrap.Button variant='success' onClick={() => handleGreenButtonClick()}>
+            {showingTopX ? 'Show Selected Teams' : `Show top ${nmbrTeamsToShow} teams`}
+        </ReactBootStrap.Button>
+        <ReactBootStrap.Button variant='danger' onClick={() => handleUnselectAll()}>
+            Unselect All
+        </ReactBootStrap.Button>
         
         <Table 
             dataManager={dataManager}
